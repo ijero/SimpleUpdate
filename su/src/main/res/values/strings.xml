@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">su</string>
+    <string name="str_download_prepare">正在准备下载……</string>
+    <string name="str_download_error">下载出错，请重试！</string>
+    <string name="str_download_update_title">版本升级</string>
+    <string name="str_download">下载</string>
+    <string name="str_pause">暂停</string>
+    <string name="str_continue">继续</string>
+    <string name="str_download_paused">已暂停</string>
+    <string name="str_download_start_download">开始下载</string>
+    <string name="str_download_done">下载完成</string>
+    <string name="str_cancel">取消</string>
+    <string name="str_retry">重试</string>
+    <string name="str_done">完成</string>
+    <string name="str_install">安装</string>
+    <string name="str_canceled">下载已取消</string>
+    <string name="str_downloading">正在下载……%d%%</string>
+</resources>

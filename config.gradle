@@ -1,0 +1,9 @@
+ext {
+    setup = [
+            cSdk : 27,
+            mSdk : 16,
+            tSdk : 27,
+            vCode: 1,
+            vName: "0.0.1",
+    ]
+}
