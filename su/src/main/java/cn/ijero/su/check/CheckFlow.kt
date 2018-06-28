@@ -2,14 +2,14 @@ package cn.ijero.su.check
 
 import android.app.Activity
 import cn.ijero.su.R
+import cn.ijero.su.download.DownloadConfig
 import cn.ijero.su.download.DownloadInfo
 import cn.ijero.su.download.DownloadState
-import cn.ijero.su.download.DownloadConfig
 import cn.ijero.su.installApk
 import cn.ijero.su.post
 import cn.ijero.su.show
-import cn.ijero.su.ui.UpdateDialog
 import com.afollestad.materialdialogs.DialogAction
+import com.afollestad.materialdialogs.MaterialDialog
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -19,22 +19,21 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class CheckFlow(private val host: Activity) {
-    private var dialog: UpdateDialog? = null
+    private var dialog: MaterialDialog? = null
 
     companion object {
         private const val TAG: String = "CheckFlow"
         private const val INTERVAL = 200L
     }
 
-    //    private var thread: Thread? = null
     private var lastTime = 0L
     private var lastState = DownloadState.INVALID
     private var mIsCancel = false
     private lateinit var downloadConfig: DownloadConfig
 
-    fun download(config: DownloadConfig): UpdateDialog {
+    fun download(config: DownloadConfig): MaterialDialog {
         if (dialog == null) {
-            val builder = UpdateDialog.Builder(host).apply {
+            val builder = MaterialDialog.Builder(host).apply {
                 content(config.tipContent() ?: "")
                 title(host.getString(R.string.str_download_update_title))
                 positiveText(host.getString(R.string.str_download))
@@ -47,9 +46,7 @@ class CheckFlow(private val host: Activity) {
                 }
             }
 
-            dialog = UpdateDialog(builder).apply {
-                show()
-            }
+            dialog = builder.show()
         } else {
             dialog!!.show()
         }
@@ -70,8 +67,8 @@ class CheckFlow(private val host: Activity) {
 
         val timeout = downloadConfig.timeout()
         OkHttpClient.Builder()
-                .connectTimeout(timeout,TimeUnit.MILLISECONDS)
-                .readTimeout(timeout,TimeUnit.MILLISECONDS)
+                .connectTimeout(timeout, TimeUnit.MILLISECONDS)
+                .readTimeout(timeout, TimeUnit.MILLISECONDS)
                 .build()
                 .newCall(request)
                 .enqueue(object : Callback {

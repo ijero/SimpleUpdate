@@ -8,7 +8,7 @@ class DownloadConfig {
     private var filename: String? = null
     private var tipContent: String? = null
     private var cancelable = false
-    private var request: Request? = null
+    private lateinit var request: Request
     private var timeout = 0L
 
     class Builder {
@@ -61,7 +61,7 @@ class DownloadConfig {
 
             return DownloadConfig().apply {
                 this.dir = dir
-                this.request = this@Builder.request
+                this.request = request
                 this.timeout = this@Builder.timeout
                 this.filename = this@Builder.filename
                 this.listener = this@Builder.listener
