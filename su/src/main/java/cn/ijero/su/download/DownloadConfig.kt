@@ -1,39 +1,31 @@
 package cn.ijero.su.download
 
-class Downloader {
+import okhttp3.Request
+
+class DownloadConfig {
     private var listener: DownloadListener? = null
-    private var url: String? = null
     private var dir: String? = null
-    private var method: String? = null
     private var filename: String? = null
     private var tipContent: String? = null
-    private var timeout = 0
     private var cancelable = false
+    private var request: Request? = null
+    private var timeout = 0L
 
     class Builder {
         private var listener: DownloadListener? = null
-        private var url: String? = null
         private var dir: String? = null
-        private var method: String? = null
         private var filename: String? = null
         private var tipContent: String? = null
-        private var timeout: Int = 10_000
+        private var request: Request? = null
         private var cancelable = false
+        private var timeout = 10_000L
 
-        fun tipContent(tipContent: String): Builder {
+        fun dialogContent(tipContent: String): Builder {
             this.tipContent = tipContent
             return this
         }
 
-        fun url(url: String): Builder {
-            this.url = url
-            return this
-        }
 
-        fun timeout(timeout: Int): Builder {
-            this.timeout = timeout
-            return this
-        }
         fun cancelable(cancelable: Boolean): Builder {
             this.cancelable = cancelable
             return this
@@ -44,13 +36,17 @@ class Downloader {
             return this
         }
 
+        fun timeout(timeout: Long): Builder {
+            this.timeout = timeout
+            return this
+        }
         fun filename(filename: String): Builder {
             this.filename = filename
             return this
         }
 
-        fun method(method: String): Builder {
-            this.method = method
+        fun request(request: Request): Builder {
+            this.request = request
             return this
         }
 
@@ -59,32 +55,29 @@ class Downloader {
             return this
         }
 
-        fun build(): Downloader {
-            val url = url ?: throw IllegalArgumentException("Download URL cannot be null!")
+        fun build(): DownloadConfig {
+            val request = request ?: throw IllegalArgumentException("DownloadConfig request's configure cannot be null!")
             val dir = dir ?: throw IllegalArgumentException("Download save dir cannot be null!")
-            val method = method ?: "GET"
 
-            return Downloader().apply {
-                this.url = url
+            return DownloadConfig().apply {
                 this.dir = dir
-                this.method = method
+                this.request = this@Builder.request
+                this.timeout = this@Builder.timeout
                 this.filename = this@Builder.filename
                 this.listener = this@Builder.listener
-                this.timeout = this@Builder.timeout
                 this.tipContent = this@Builder.tipContent
                 this.cancelable = this@Builder.cancelable
             }
         }
     }
 
-    fun url() = url
-    fun dir() = dir
+    fun dir() = dir!!
     fun filename() = filename
     fun listener() = listener
-    fun timeout() = timeout
-    fun method() = method
     fun tipContent() = tipContent
     fun cancelable() = cancelable
+    fun request() = request!!
+    fun timeout() = timeout
 
 
 }
